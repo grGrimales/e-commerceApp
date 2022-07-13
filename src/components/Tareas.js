@@ -21,10 +21,10 @@ const Tareas = ({ item, setModalVisible, tareaEditar, tareaEliminar }) => {
       <View style={styles.contenedor}>
         <Text style={styles.label}>Tarea:</Text>
         <Text style={styles.texto}>{titulo}</Text>
-        <Text style={styles.texto}>{toDo}</Text>
+        <Text style={styles.texto}>*{toDo}</Text>
 
         <Text style={styles.label}>Equipo:</Text>
-        <Text style={styles.label}>{equipo}</Text>
+        <Text style={styles.texto}>{equipo}</Text>
 
         <Text style={styles.fecha}>{formatearFecha(fechaCreated)}</Text>
         <View style={styles.contenedorBotones}>
