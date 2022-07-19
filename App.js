@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  Pressable,
-  Modal,
-  FlatList,
-  Alert,
-} from "react-native";
+import { StyleSheet, Text, SafeAreaView, Pressable, Alert } from "react-native";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
 import Formulario from "./src/components/Formulario";
-import Tareas from "./src/components/Tareas";
+import { Listado } from "./src/components/Listado";
+import { NoTareas } from "./src/components/NoTareas";
+import colors from "./src/constants/colors";
 
 export default function App() {
+  const [loaded] = useFonts({
+    RobotoBold: require("./assets/fonts/Roboto-Bold.ttf"),
+    RobotoRegular: require("./assets/fonts/Roboto-Regular.ttf"),
+  });
+
   const [modalVisible, setModalVisible] = useState(false);
   const [tareas, setTareas] = useState([]);
   const [tarea, setTarea] = useState({});
@@ -43,6 +43,20 @@ export default function App() {
     );
   };
 
+  let content = <NoTareas />;
+
+  if (tareas.length >= 1) {
+    content = (
+      <Listado
+        tareas={tareas}
+        setModalVisible={setModalVisible}
+        tareaEditar={tareaEditar}
+        tareaEliminar={tareaEliminar}
+      />
+    );
+  }
+
+  if (!loaded) return <AppLoading />;
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titulo}>¡Organiza tus Actividades!</Text>
@@ -55,26 +69,7 @@ export default function App() {
       >
         <Text style={styles.textoBtn}> Nuevo To do</Text>
       </Pressable>
-
-      {tareas.length === 0 ? (
-        <Text style={styles.noTareas}>No Tienes Pendientes aún</Text>
-      ) : (
-        <FlatList
-          style={styles.listado}
-          data={tareas}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            return (
-              <Tareas
-                item={item}
-                setModalVisible={setModalVisible}
-                tareaEditar={tareaEditar}
-                tareaEliminar={tareaEliminar}
-              />
-            );
-          }}
-        />
-      )}
+      {content}
 
       <Formulario
         modalVisible={modalVisible}
@@ -90,26 +85,29 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F3F4F6",
+    backgroundColor: colors.bg,
     flex: 1,
     paddingTop: 39,
+    fontFamily: "RobotoRegular",
   },
 
   titulo: {
     textAlign: "center",
     fontSize: 30,
-    color: "#374151",
+    color: colors.secondary,
     fontWeight: "600",
   },
+
   tituloBold: {
     fontSize: 30,
 
     textAlign: "center",
     fontWeight: "900",
-    color: "#6D28D9",
+    color: colors.primary,
+    fontFamily: "RobotoBold",
   },
   addToDo: {
-    backgroundColor: "#6D28D9",
+    backgroundColor: colors.primary,
     padding: 15,
     marginTop: 30,
     marginHorizontal: 20,
@@ -122,16 +120,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "900",
     textTransform: "uppercase",
-  },
-
-  noTareas: {
-    marginTop: 40,
-    textAlign: "center",
-    fontSize: 24,
-    fontWeight: "600",
-  },
-  listado: {
-    marginTop: 50,
-    marginHorizontal: 30,
   },
 });

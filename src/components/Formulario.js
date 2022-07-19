@@ -11,6 +11,8 @@ import {
   ScrollView,
 } from "react-native";
 
+import colors from "../constants/colors";
+
 const Formulario = ({
   modalVisible,
   setModalVisible,
@@ -61,7 +63,6 @@ const Formulario = ({
       setTareas([...tareas, nuevaTarea]);
     }
 
-    setTareas([...tareas, nuevaTarea]);
     setModalVisible(!modalVisible);
     setTitulo("");
     setToDo("");
@@ -142,7 +143,7 @@ const Formulario = ({
 
 const styles = StyleSheet.create({
   contenido: {
-    backgroundColor: "#6D28D9",
+    backgroundColor: colors.primary,
     flex: 1,
   },
 
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
     marginTop: 30,
-    color: "#FFF",
+    color: colors.colorText,
   },
 
   tituloBold: {
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   btnCancelarTexto: {
-    color: "#FFF",
+    color: colors.colorText,
     textAlign: "center",
     fontWeight: "900",
     fontSize: 16,
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    color: "#FFF",
+    color: colors.colorText,
     marginBottom: 10,
     marginTop: 15,
     fontSize: 20,
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    backgroundColor: "#FFF",
+    backgroundColor: colors.colorText,
     padding: 15,
     borderRadius: 10,
   },
